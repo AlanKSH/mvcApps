@@ -67,50 +67,20 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
                 view.setModel(m);
 
             } else if (cmmd == "Save") {
-                if(model.getFileName() == null) {
-                    String fName = Utilities.getFileName(null, false);
-                    if(!fName.isEmpty()) {
-                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
-                        os.writeObject(model);
-                        os.close();
-                        model.setFileName(fName);
-                        model.saved();
-                    }
-                }else{
-                    ObjectOutputStream os = new ObjectOutputStream((new FileOutputStream(model.getFileName())));
-                    os.writeObject(model);
-                    os.close();
-                    model.saved();
-                }
-
+                save();
             } else if (cmmd == "Save as") {
-                String fName = Utilities.getFileName(null, false);
-                if(!fName.isEmpty()) {
-                    ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
-                    os.writeObject(model);
-                    os.close();
-                    model.setFileName(fName);
-                    model.saved();
-                }
-
+                saveAs();
             } else if (cmmd == "Open") {
-                String fName = Utilities.getFileName(null, true);
-                ObjectInputStream is = new ObjectInputStream((new FileInputStream((fName))));
-                model = (Model)is.readObject();
-                view.setModel(model);
-
+                String fName = Utilities.getFileName(model.getFileName(), true);
+                if(!fName.isEmpty()) {
+                    ObjectInputStream is = new ObjectInputStream((new FileInputStream((fName))));
+                    model = (Model) is.readObject();
+                    view.setModel(model);
+                }
             } else if (cmmd == "Quit") {
-                if(model.getChanged()){
-                    if(model.getFileName() == null) {
-                        String fName = Utilities.getFileName(null, false);
-                        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
-                        os.writeObject(model);
-                        os.close();
-                    }else{
-                        ObjectOutputStream os = new ObjectOutputStream((new FileOutputStream(model.getFileName())));
-                        os.writeObject(model);
-                        os.close();
-                    }
+                // check for changes, if the model was changed, ask the user to save
+                if(model.getChanged() && Utilities.confirm("Save changes before quitting?")){
+                    save();
                 }
                 System.exit(1);
             } else if (cmmd == "Help") {
@@ -125,6 +95,28 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
             }
         }catch(Exception ex) {
             Utilities.inform("Error, Unrecognized command: " + e.getActionCommand());
+        }
+    }
+
+    private void saveAs() throws Exception{
+        String fName = Utilities.getFileName(null, false);
+        if(!fName.isEmpty()) {
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
+            os.writeObject(model);
+            os.close();
+            model.setFileName(fName);
+            model.saved();
+        }
+    }
+
+    private void save() throws Exception{
+        if (model.getFileName() == null){
+            saveAs();
+        }else{
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(model.getFileName()));
+            os.writeObject(model);
+            os.close();
+            model.saved();
         }
     }
 

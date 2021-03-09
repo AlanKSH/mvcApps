@@ -10,7 +10,7 @@ public class Utilities {
     public static boolean confirm(String query) {
         int result = JOptionPane.showConfirmDialog(null,
                 query, "choose one", JOptionPane.YES_NO_OPTION);
-        return result == 1;
+        return result == 0;
     }
 
     // asks user for info
@@ -60,7 +60,10 @@ public class Utilities {
         return result;
     }
 
-    // asks user for a file name
+    /* Method asks the user for a file name and returns the string
+    Parameters: String fName which is used for the open chooser directory, Boolean open
+    Returns: The string for the file, or an empty string if the user cancels
+     */
     public static String getFileName(String fName, Boolean open) {
         JFileChooser chooser = new JFileChooser();
         String result = null;
@@ -68,21 +71,16 @@ public class Utilities {
             // open chooser in directory of fName
             chooser.setCurrentDirectory(new File(fName));
         }
+        int returnVal;
         if (open) {
-            int returnVal = chooser.showOpenDialog(null);
-            if(returnVal == JFileChooser.APPROVE_OPTION) {
-                result= chooser.getSelectedFile().getPath();
-            }
-            else if(returnVal == JFileChooser.CANCEL_OPTION){
-                return "";
-            }
+            returnVal = chooser.showOpenDialog(null);
         } else {
-            int returnVal = chooser.showSaveDialog(null);
-            if(returnVal == JFileChooser.APPROVE_OPTION) {
-                result= chooser.getSelectedFile().getPath();
-            }else if(returnVal == JFileChooser.CANCEL_OPTION){
-                return "";
-            }
+            returnVal = chooser.showSaveDialog(null);
+        }
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            result= chooser.getSelectedFile().getPath();
+        } else if(returnVal == JFileChooser.CANCEL_OPTION){
+            return "";
         }
         return result;
     }

@@ -94,7 +94,7 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
                 }
 
             } else if (cmmd == "Open") {
-                String fName = Utilities.getFileName(null, false);
+                String fName = Utilities.getFileName(null, true);
                 ObjectInputStream is = new ObjectInputStream((new FileInputStream((fName))));
                 model = (Model)is.readObject();
                 view.setModel(model);

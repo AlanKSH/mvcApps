@@ -98,7 +98,7 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
         }
     }
 
-    private void saveAs() throws Exception{
+    public void saveAs() throws Exception{
         String fName = Utilities.getFileName(null, false);
         if(!fName.isEmpty()) {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
@@ -109,7 +109,7 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
         }
     }
 
-    private void save() throws Exception{
+    public void save() throws Exception{
         if (model.getFileName() == null){
             saveAs();
         }else{

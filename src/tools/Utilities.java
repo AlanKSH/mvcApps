@@ -73,14 +73,16 @@ public class Utilities {
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 result= chooser.getSelectedFile().getPath();
             }
+            else if(returnVal == JFileChooser.CANCEL_OPTION){
+                return "";
+            }
         } else {
             int returnVal = chooser.showSaveDialog(null);
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 result= chooser.getSelectedFile().getPath();
+            }else if(returnVal == JFileChooser.CANCEL_OPTION){
+                return "";
             }
-        }
-        if(chooser.showOpenDialog(null) == JFileChooser.CANCEL_OPTION){
-            return "";
         }
         return result;
     }

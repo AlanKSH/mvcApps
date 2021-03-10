@@ -14,10 +14,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class AppPanel extends JPanel implements ActionListener, PropertyChangeListener {
-    private View view;
-    private Model model;
-    private JFrame frame;
-    private AppFactory factory;
+    protected View view;
+    protected Model model;
+    protected JFrame frame;
+    protected AppFactory factory;
     protected JPanel controlPanel;
     public static int FRAME_WIDTH = 500;
     public static int FRAME_HEIGHT = 300;
@@ -61,32 +61,30 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
     public void actionPerformed(ActionEvent e) {
         String cmmd= e.getActionCommand();
         try {
-            if (cmmd == "New") {
-                Model m = factory.makeModel();
-                model = m;
-                view.setModel(m);
-
-            } else if (cmmd == "Save") {
+            if (cmmd.equals("New")) {
+                model = factory.makeModel();
+                view.setModel(model);
+            } else if (cmmd.equals("Save")) {
                 save();
-            } else if (cmmd == "Save as") {
+            } else if (cmmd.equals("Save as")) {
                 saveAs();
-            } else if (cmmd == "Open") {
+            } else if (cmmd.equals("Open")) {
                 String fName = Utilities.getFileName(model.getFileName(), true);
                 if(!fName.isEmpty()) {
                     ObjectInputStream is = new ObjectInputStream((new FileInputStream((fName))));
                     model = (Model) is.readObject();
                     view.setModel(model);
                 }
-            } else if (cmmd == "Quit") {
+            } else if (cmmd.equals("Quit")) {
                 // check for changes, if the model was changed, ask the user to save
                 if(model.getChanged() && Utilities.confirm("Save changes before quitting?")){
                     save();
                 }
                 System.exit(1);
-            } else if (cmmd == "Help") {
+            } else if (cmmd.equals("Help")) {
                 Utilities.inform(factory.getHelp());
 
-            } else if (cmmd == "About") {
+            } else if (cmmd.equals("About")) {
                 Utilities.inform(factory.about());
 
             } else {
@@ -94,8 +92,12 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
                 editCommand.execute();
             }
         }catch(Exception ex) {
-            Utilities.inform("Error, Unrecognized command: " + e.getActionCommand());
+            handleException(ex);
         }
+    }
+
+    public void handleException(Exception e){
+        Utilities.error(e);
     }
 
     public void saveAs() throws Exception{

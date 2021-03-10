@@ -101,11 +101,11 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
     public void saveAs() throws Exception{
         String fName = Utilities.getFileName(null, false);
         if(!fName.isEmpty()) {
+            model.setFileName(fName);
+            model.saved(); // set unsavedChanges to false before writing the object
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
             os.writeObject(model);
             os.close();
-            model.setFileName(fName);
-            model.saved();
         }
     }
 
@@ -113,10 +113,10 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
         if (model.getFileName() == null){
             saveAs();
         }else{
+            model.saved();
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(model.getFileName()));
             os.writeObject(model);
             os.close();
-            model.saved();
         }
     }
 

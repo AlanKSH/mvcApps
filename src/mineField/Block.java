@@ -1,13 +1,16 @@
 import java.io.Serializable;
+import java.util.*;
 public class Block implements Serializable {
     int xCoor;
     int yCoor;
+    private Boolean hasMine;
     private Boolean endPoint;
 
     public Block(int xCoor, int yCoor) {
         this.xCoor = xCoor;
         this.yCoor = yCoor;
         endPoint = false;
+        hasMine = new Random.nextBoolean();
     }
     public void setX(int xCoor) {
         this.xCoor = xCoor;
@@ -27,5 +30,8 @@ public class Block implements Serializable {
     public void setEndPoint(Boolean endPoint) {
         this.endPoint = endPoint;
     }
-}
+
+    public Boolean blockHasMine() {
+        return hasMine;
+    }
 }

@@ -1,26 +1,30 @@
+package mineField;
+
 import java.awt.Color;
 import java.util.*;
 import java.util.List;
 import tools.*;
-public class MineField extends Bean {    
+import mvc.*;
+
+public class Minefield extends Model {
     public static Integer WORLD_SIZE = 250;
     Block location;
     List<Block> path;
     boolean takenFlag;
     boolean checkMineFlag;
     private Heading direction;
-    public MineField() {
+    public Minefield() {
         location = new Block(0,0);
         path = new LinkedList<Block>();
         takenFlag = true;
         checkMineFlag = false;
     }
     public void setLocation() {
-        location = currentBlock;
+
     }
 
-    public List<Block> getPath() {
-        return path;
+/*    public List<Block> getPath() {
+
     }
     
     public boolean setTakenFlag() {
@@ -31,18 +35,12 @@ public class MineField extends Bean {
     }
 
     private setMineFlag() {
-        Random rd = new Random();
-        checkMineFlag = rd.nextBoolean();
-    }
-    private boolean isMineFlag() {
-        if (checkMineFlag == true)
-            return true;
-        else return false;
-    }
-    public List<Block> getPredictedBlocks(Block b) {
         
+    }*/
+    private boolean isMineFlag() {
+        return checkMineFlag;
     }
-    
+
     public void move(int steps) {
 
     }

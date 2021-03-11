@@ -16,11 +16,11 @@ public class MineField extends Bean {
         checkMineFlag = false;
     }
     public void setLocation() {
-
+        location = currentBlock;
     }
 
     public List<Block> getPath() {
-
+        return path;
     }
     
     public boolean setTakenFlag() {
@@ -31,12 +31,18 @@ public class MineField extends Bean {
     }
 
     private setMineFlag() {
-        
+        Random rd = new Random();
+        checkMineFlag = rd.nextBoolean();
     }
     private boolean isMineFlag() {
-        return checkMineFlag;
+        if (checkMineFlag == true)
+            return true;
+        else return false;
     }
-
+    public List<Block> getPredictedBlocks(Block b) {
+        
+    }
+    
     public void move(int steps) {
 
     }

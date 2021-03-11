@@ -3,10 +3,10 @@ import mvc.*;
 
 public class MinefieldFactory implements AppFactory{
     public Model makeModel(){
-        return null;//finish
+        return new Minefield();
     }
     public View makeView(Model m){
-        return null;//finish
+        return new MinefieldView(m);
     }
     public String getTitle(){
         return "Mine Field";
@@ -24,7 +24,7 @@ public class MinefieldFactory implements AppFactory{
     public Command makeEditCommand(Model model, String type) {
         Command cmmd = null;
         if(type.equals("N")){
-
+            //finish these commands
         }else if(type.equals("S")){
 
         }else if(type.equals("W")){

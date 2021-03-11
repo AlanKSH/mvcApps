@@ -1,3 +1,5 @@
+package mineField;
+
 import java.io.Serializable;
 public class Block implements Serializable {
     int xCoor;
@@ -27,5 +29,4 @@ public class Block implements Serializable {
     public void setEndPoint(Boolean endPoint) {
         this.endPoint = endPoint;
     }
-}
 }

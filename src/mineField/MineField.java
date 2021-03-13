@@ -30,7 +30,7 @@ public class MineField extends Bean {
         firePropertyChange(null, null, null);
     }
 
-    private setMineFlag() {
+    private void setMineFlag() {
         Random rd = new Random();
         checkMineFlag = rd.nextBoolean();
     }
@@ -173,5 +173,14 @@ public class MineField extends Bean {
 
     public void turn(Heading direction) {
         this.direction = direction;
+    }
+    
+    public int numsOfMine() {
+        int count = 0;
+        List<Block> tempMineList = getPredictedBlocks();
+        for (int i = 0; i < tempMineList.size(); i++) {
+            if (tempMineList.get(i).blockHasMine() == true) count++;
+        }
+        return count;
     }
 }

@@ -179,4 +179,13 @@ public class Minefield extends Model {
     public void turn(Heading direction) {
         this.direction = direction;
     }
+    
+    public int numsOfMine() {
+        int count = 0;
+        List<Block> tempMineList = getPredictedBlocks();
+        for (int i = 0; i < tempMineList.size(); i++) {
+            if (tempMineList.get(i).blockHasMine() == true) count++;
+        }
+        return count;
+    }
 }

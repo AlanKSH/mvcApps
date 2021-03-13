@@ -3,12 +3,14 @@ package mineField;
 import mvc.*;
 
 public class MinefieldCommand extends Command {
-
-    public MinefieldCommand(Model model) {
+    Heading heading;
+    public MinefieldCommand(Model model, Heading h) {
         super(model);
+        heading = h;
     }
 
     public void execute() {
-
+        MineField minefield = (MineField) model;
     }
 }
+

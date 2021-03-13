@@ -22,24 +22,24 @@ public class MinefieldFactory implements AppFactory{
         return new String[]{"N", "S", "W", "E", "NE","NW", "SE", "SW"};
     }
     public Command makeEditCommand(Model model, String type) {
-        Command cmmd = null;
+
         if(type.equals("N")){
-            //finish these commands
+            return new MinefieldCommand(model,Heading.NORTH);
         }else if(type.equals("S")){
-
+            return new MinefieldCommand(model,Heading.SOUTH);
         }else if(type.equals("W")){
-
+            return new MinefieldCommand(model,Heading.WEST);
         }else if(type.equals("E")){
-
+            return new MinefieldCommand(model,Heading.EAST);
         }else if(type.equals("NE")){
-
+            return new MinefieldCommand(model,Heading.NORTH_EAST);
         }else if(type.equals("NW")){
-
+            return new MinefieldCommand(model,Heading.NORTH_WEST);
         }else if(type.equals("SE")){
-
+            return new MinefieldCommand(model,Heading.SOUTH_EAST);
         }else if(type.equals("SW")){
-
+            return new MinefieldCommand(model,Heading.SOUTH_WEST);
         }
-        return cmmd;
+        return null;
     }
 }

@@ -23,7 +23,7 @@ public class MineField extends Bean {
         return path;
     }
     
-    public boolean setTakenFlag() {
+    public v setTakenFlag() {
         takenFlag = true;
         path.add(location);
 

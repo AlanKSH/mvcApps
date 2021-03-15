@@ -23,7 +23,7 @@ public class MineField extends Bean {
         return path;
     }
     
-    public boolean setTakenFlag() {
+    public void setTakenFlag() {
         takenFlag = true;
         path.add(location);
 
@@ -77,6 +77,52 @@ public class MineField extends Bean {
             tempList.add(b4);
             tempList.add(b5);
         }
+        else if ((location.getXcoor() == WORLD_SIZE - 1) && (location.getYcoor() == 0)) {
+            Block b1 = new Block(location.getXCoor() - 1, location.yCoor());
+            Block b2 = new Block(location.getXcoor() - 1, location.yCoor() + 1);
+            Block b3 = new Block(location.getXCoor(), location.yCoor() + 1);
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+        }
+        else if (location.getXcoor() == WORLD_SIZE - 1) {
+            Block b1 = new Block(location.getXCoor(), location.yCoor() - 1);
+            Block b2 = new Block(location.getXcoor() - 1, location.yCoor() - 1);
+            Block b3 = new Block(location.getXCoor() - 1, location.yCoor());
+            Block b4 = new Block(location.getXCoor() - 1, location.yCoor() + 1);
+            Block b5 = new Block(location.getXCoor(), location.yCoor() + 1);
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+            tempList.add(b4);
+            tempList.add(b5);
+        }
+        else if ((location.getYcoor() == WORLD_SIZE - 1) && (location.getXcoor() == 0)) {
+            Block b1 = new Block(location.getXCoor(), location.yCoor() - 1);
+            Block b2 = new Block(location.getXcoor() + 1, location.yCoor() - 1);
+            Block b3 = new Block(location.getXCoor() + 1, location.yCoor());
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+        }
+
+        else if (location.getYcoor() == WORLD_SIZE - 1) {
+            Block b1 = new Block(location.getXCoor(), location.yCoor() - 1);
+            Block b2 = new Block(location.getXcoor() + 1, location.yCoor() - 1);
+            Block b3 = new Block(location.getXCoor() + 1, location.yCoor());
+            Block b4 = new Block(location.getXCoor() + 1, location.yCoor() + 1);
+            Block b5 = new Block(location.getXCoor(), location.yCoor() + 1);
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+            tempList.add(b4);
+            tempList.add(b5);
+        }
+
         else {
             Block b1 = new Block(location.getXCoor() - 1, location.getYCoor());
             Block b2 = new Block(location.getXcoor() - 1, location.getYCoor() + 1);
@@ -174,7 +220,7 @@ public class MineField extends Bean {
     public void turn(Heading direction) {
         this.direction = direction;
     }
-    
+
     public int numsOfMine() {
         int count = 0;
         List<Block> tempMineList = getPredictedBlocks();

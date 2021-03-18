@@ -1,3 +1,4 @@
+package mineField;
 import java.io.Serializable;
 import java.util.*;
 public class Block implements Serializable {
@@ -10,7 +11,8 @@ public class Block implements Serializable {
         this.xCoor = xCoor;
         this.yCoor = yCoor;
         endPoint = false;
-        hasMine = new Random.nextBoolean();
+        Random rand = new Random();
+        hasMine = rand.nextBoolean();
     }
     public void setX(int xCoor) {
         this.xCoor = xCoor;

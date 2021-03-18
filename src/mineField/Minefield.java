@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.util.*;
 import java.util.List;
 import tools.*;
-public class MineField extends Bean {
+import mvc.*;
+
+public class Minefield extends Model {
     public static Integer WORLD_SIZE = 20;
     Block location;
     List<Block> path;
@@ -13,7 +15,7 @@ public class MineField extends Bean {
     private Heading direction;
     Block [][] boardArray = new Block[WORLD_SIZE][WORLD_SIZE];
 
-    public MineField() {
+    public Minefield() {
         for (int i = 0; i <WORLD_SIZE; i++)
         {
             for (int j = 0; j <WORLD_SIZE; j++)
@@ -56,7 +58,7 @@ public class MineField extends Bean {
         List<Block> tempList = new LinkedList<Block>();
         if ((location.getXCoor() ==0)&& (location.getYCoor() == 0)) {
             Block b1 = boardArray[location.getXCoor()][location.getYCoor() + 1];
-            Block b2 = boardArray[location.getXcoor() +1][location.getYCoor()];
+            Block b2 = boardArray[location.getXCoor() +1][location.getYCoor()];
             Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
             tempList.add(b1);
             tempList.add(b2);
@@ -66,7 +68,7 @@ public class MineField extends Bean {
         }
         else if (location.getXCoor() == 0) {
             Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
-            Block b2 = boardArray[location.getXcoor() +1][location.getYCoor() - 1];
+            Block b2 = boardArray[location.getXCoor() +1][location.getYCoor() - 1];
             Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor()];
             Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
             Block b5 = boardArray[location.getXCoor()][location.getYCoor() + 1];
@@ -78,11 +80,11 @@ public class MineField extends Bean {
             tempList.add(b5);
         }
         else if (location.getYCoor() == 0) {
-            Block b1 = boardArray[location.getXCoor() - 1][location.yCoor()];
-            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() + 1];
-            Block b3 = boardArray[location.getXCoor()][location.yCoor() + 1];
-            Block b4 = boardArray[location.getXCoor() + 1][location.yCoor() + 1];
-            Block b5 = boardArray[location.getXCoor() + 1][location.yCoor()];
+            Block b1 = boardArray[location.getXCoor() - 1][location.getYCoor()];
+            Block b2 = boardArray[location.getXCoor() - 1][location.getYCoor() + 1];
+            Block b3 = boardArray[location.getXCoor()][location.getYCoor() + 1];
+            Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
+            Block b5 = boardArray[location.getXCoor() + 1][location.getYCoor()];
 
             tempList.add(b1);
             tempList.add(b2);
@@ -90,21 +92,21 @@ public class MineField extends Bean {
             tempList.add(b4);
             tempList.add(b5);
         }
-        else if ((location.getXcoor() == WORLD_SIZE - 1) && (location.getYcoor() == 0)) {
-            Block b1 = boardArray[location.getXCoor() - 1][location.yCoor()];
-            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() + 1];
-            Block b3 = boardArray[location.getXCoor()][location.yCoor() + 1];
+        else if ((location.getXCoor() == WORLD_SIZE - 1) && (location.getYCoor() == 0)) {
+            Block b1 = boardArray[location.getXCoor() - 1][location.getYCoor()];
+            Block b2 = boardArray[location.getXCoor() - 1][location.getYCoor() + 1];
+            Block b3 = boardArray[location.getXCoor()][location.getYCoor() + 1];
 
             tempList.add(b1);
             tempList.add(b2);
             tempList.add(b3);
         }
-        else if (location.getXcoor() == WORLD_SIZE - 1) {
-            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
-            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() - 1][location.yCoor()];
-            Block b4 = boardArray[location.getXCoor() - 1][location.yCoor() + 1];
-            Block b5 = boardArray[location.getXCoor()][location.yCoor() + 1];
+        else if (location.getXCoor() == WORLD_SIZE - 1) {
+            Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
+            Block b2 = boardArray[location.getXCoor() - 1][location.getYCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() - 1][location.getYCoor()];
+            Block b4 = boardArray[location.getXCoor() - 1][location.getYCoor() + 1];
+            Block b5 = boardArray[location.getXCoor()][location.getYCoor() + 1];
 
             tempList.add(b1);
             tempList.add(b2);
@@ -112,22 +114,22 @@ public class MineField extends Bean {
             tempList.add(b4);
             tempList.add(b5);
         }
-        else if ((location.getYcoor() == WORLD_SIZE - 1) && (location.getXcoor() == 0)) {
-            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
-            Block b2 = boardArray[location.getXcoor() + 1][location.yCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() + 1][location.yCoor()];
+        else if ((location.getYCoor() == WORLD_SIZE - 1) && (location.getXCoor() == 0)) {
+            Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
+            Block b2 = boardArray[location.getXCoor() + 1][location.getYCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor()];
 
             tempList.add(b1);
             tempList.add(b2);
             tempList.add(b3);
         }
 
-        else if (location.getYcoor() == WORLD_SIZE - 1) {
-            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
-            Block b2 = boardArray[location.getXcoor() + 1][location.yCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() + 1][location.yCoor()];
-            Block b4 = boardArray[location.getXCoor() + 1][location.yCoor() + 1];
-            Block b5 = boardArray[location.getXCoor()][location.yCoor() + 1];
+        else if (location.getYCoor() == WORLD_SIZE - 1) {
+            Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
+            Block b2 = boardArray[location.getXCoor() + 1][location.getYCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor()];
+            Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
+            Block b5 = boardArray[location.getXCoor()][location.getYCoor() + 1];
 
             tempList.add(b1);
             tempList.add(b2);
@@ -138,7 +140,7 @@ public class MineField extends Bean {
 
         else {
             Block b1 = boardArray[location.getXCoor() - 1][location.getYCoor()];
-            Block b2 = boardArray[location.getXcoor() - 1][location.getYCoor() + 1];
+            Block b2 = boardArray[location.getXCoor() - 1][location.getYCoor() + 1];
             Block b3 = boardArray[location.getXCoor()][location.getYCoor() + 1];
             Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
             Block b5 = boardArray[location.getXCoor() + 1][location.getYCoor()];

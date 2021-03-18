@@ -3,17 +3,28 @@ import java.util.*;
 import java.util.List;
 import tools.*;
 public class MineField extends Bean {    
-    public static Integer WORLD_SIZE = 250;
+    public static Integer WORLD_SIZE = 20;
     Block location;
     List<Block> path;
     boolean takenFlag;
     boolean checkMineFlag;
     private Heading direction;
+    Block [][] boardArray = new Block[WORLD_SIZE][WORLD_SIZE];
+
     public MineField() {
-        location = new Block(0,0);
+        for (int i = 0; i <WORLD_SIZE; i++)
+        {
+            for (int j = 0; j <WORLD_SIZE; j++)
+            {
+                boardArray[i][j]=new Block(i, j);
+            }
+        }
+        location = boardArray[0][0];
         path = new LinkedList<Block>();
         takenFlag = true;
         checkMineFlag = false;
+
+        
     }
     public void setLocation(Block currentBlock) {
         location = currentBlock;
@@ -39,7 +50,119 @@ public class MineField extends Bean {
             return true;
         else return false;
     }
-    public List<Block> getPredictedBlocks() {
+
+    public int getSurroundingMines() {
+        int count = 0;
+        List<Block> tempList = new LinkedList<Block>();
+        if ((location.getXCoor() ==0)&& (location.getYCoor() == 0)) {
+            Block b1 = boardArray[location.getXCoor()][location.getYCoor() + 1];
+            Block b2 = boardArray[location.getXcoor() +1][location.getYCoor()];
+            Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+
+            
+        }
+        else if (location.getXCoor() == 0) {
+            Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
+            Block b2 = boardArray[location.getXcoor() +1][location.getYCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor()];
+            Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
+            Block b5 = boardArray[location.getXCoor()][location.getYCoor() + 1];
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+            tempList.add(b4);
+            tempList.add(b5);
+        }
+        else if (location.getYCoor() == 0) {
+            Block b1 = boardArray[location.getXCoor() - 1][location.yCoor()];
+            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() + 1];
+            Block b3 = boardArray[location.getXCoor()][location.yCoor() + 1];
+            Block b4 = boardArray[location.getXCoor() + 1][location.yCoor() + 1];
+            Block b5 = boardArray[location.getXCoor() + 1][location.yCoor()];
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+            tempList.add(b4);
+            tempList.add(b5);
+        }
+        else if ((location.getXcoor() == WORLD_SIZE - 1) && (location.getYcoor() == 0)) {
+            Block b1 = boardArray[location.getXCoor() - 1][location.yCoor()];
+            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() + 1];
+            Block b3 = boardArray[location.getXCoor()][location.yCoor() + 1];
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+        }
+        else if (location.getXcoor() == WORLD_SIZE - 1) {
+            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
+            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() - 1][location.yCoor()];
+            Block b4 = boardArray[location.getXCoor() - 1][location.yCoor() + 1];
+            Block b5 = boardArray[location.getXCoor()][location.yCoor() + 1];
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+            tempList.add(b4);
+            tempList.add(b5);
+        }
+        else if ((location.getYcoor() == WORLD_SIZE - 1) && (location.getXcoor() == 0)) {
+            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
+            Block b2 = boardArray[location.getXcoor() + 1][location.yCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() + 1][location.yCoor()];
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+        }
+
+        else if (location.getYcoor() == WORLD_SIZE - 1) {
+            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
+            Block b2 = boardArray[location.getXcoor() + 1][location.yCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() + 1][location.yCoor()];
+            Block b4 = boardArray[location.getXCoor() + 1][location.yCoor() + 1];
+            Block b5 = boardArray[location.getXCoor()][location.yCoor() + 1];
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+            tempList.add(b4);
+            tempList.add(b5);
+        }
+
+        else {
+            Block b1 = boardArray[location.getXCoor() - 1][location.getYCoor()];
+            Block b2 = boardArray[location.getXcoor() - 1][location.getYCoor() + 1];
+            Block b3 = boardArray[location.getXCoor()][location.getYCoor() + 1];
+            Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
+            Block b5 = boardArray[location.getXCoor() + 1][location.getYCoor()];
+            Block b6 = boardArray[location.getXCoor() - 1][location.getYCoor() - 1];
+            Block b7 = boardArray[location.getXCoor()][location.getYCoor() - 1];
+            Block b8 = boardArray[location.getXCoor() + 1][location.getYCoor() - 1];
+
+            tempList.add(b1);
+            tempList.add(b2);
+            tempList.add(b3);
+            tempList.add(b4);
+            tempList.add(b5);
+            tempList.add(b6);
+            tempList.add(b7);
+            tempList.add(b8);
+        }
+
+        for (Block x : tempList) {
+            if (x.blockHasMine() == true) count++;
+        }
+        return count;
+    }
+
+    /*public List<Block> getPredictedBlocks() {
         List<Block> listBlock = new LinkedList<Block>();
         List<Block> tempList = new LinkedList<Block>();
         if ((location.getXCoor() ==0)&& (location.getYCoor() == 0)) {
@@ -148,7 +271,8 @@ public class MineField extends Bean {
         }
 
         return listBlock;
-    }
+    }*/
+
     public boolean checkGetMined() {
         if (path.get(path.size() - 1).blockHasMine() == true){
             return true;
@@ -166,7 +290,7 @@ public class MineField extends Bean {
         else return false;
 
     }
-    public void move(Block step) {
+    public void move() {
         Block tempBlock = null;
         if (direction == Heading.NORTH) {
             Block newMove = new Block(location.getXCoor(), location.getYCoor() - 1);
@@ -221,12 +345,12 @@ public class MineField extends Bean {
         this.direction = direction;
     }
 
-    public int numsOfMine() {
+    /*public int numsOfMine() {
         int count = 0;
         List<Block> tempMineList = getPredictedBlocks();
         for (int i = 0; i < tempMineList.size(); i++) {
             if (tempMineList.get(i).blockHasMine() == true) count++;
         }
         return count;
-    }
+    }*/
 }

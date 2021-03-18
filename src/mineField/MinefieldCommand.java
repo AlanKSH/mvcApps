@@ -10,7 +10,7 @@ public class MinefieldCommand extends Command {
     }
 
     public void execute() {
-        MineField minefield = (MineField) model;
+        MineField minefield = new MineField();
+        minefield.move();
     }
 }
-

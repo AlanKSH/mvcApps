@@ -8,13 +8,13 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 
 public class MinefieldView extends View {
-    private MineField mf;
+    private Minefield mf;
     private static int GRID_SIZE = 20;
     private JLabel[][] labels;
 
     public MinefieldView(Model m) {
         super(m);
-        mf = new MineField();
+        mf = new Minefield();
         labels = new JLabel[GRID_SIZE][GRID_SIZE];
 
         // Might need to use a constant for grid size instead, not sure

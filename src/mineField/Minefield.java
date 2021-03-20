@@ -341,6 +341,8 @@ public class Minefield extends Model {
             path.add(location);
             location = newMove;
         }
+
+        this.changed();
     } 
 
     public void turn(Heading direction) {

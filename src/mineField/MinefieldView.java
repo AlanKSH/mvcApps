@@ -16,7 +16,7 @@ public class MinefieldView extends View {
 
     public MinefieldView(Model m) {
         super(m);
-        mf = new Minefield();
+        mf = (Minefield) m;
 
         // Might need to use a constant for grid size instead, not sure
         this.setLayout(new GridLayout(WORLD_SIZE, WORLD_SIZE));

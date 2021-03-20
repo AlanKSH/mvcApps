@@ -8,6 +8,7 @@ import java.awt.*;
 public class MinefieldPanel extends AppPanel{
     public MinefieldPanel(AppFactory f) {
         super(f);
+
         FRAME_WIDTH = 900;
         FRAME_HEIGHT = 500;
         frame.setSize(FRAME_WIDTH,FRAME_HEIGHT);

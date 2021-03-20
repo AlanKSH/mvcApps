@@ -4,13 +4,15 @@ import mvc.*;
 
 public class MinefieldCommand extends Command {
     Heading heading;
+
     public MinefieldCommand(Model model, Heading h) {
         super(model);
         heading = h;
     }
 
     public void execute() {
-        MineField minefield = (MineField) model;
+        Minefield minefield = (Minefield) model;
+        minefield.turn(heading);
+        minefield.move();
     }
 }
-

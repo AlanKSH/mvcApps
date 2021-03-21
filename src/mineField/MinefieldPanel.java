@@ -8,10 +8,12 @@ import java.awt.*;
 public class MinefieldPanel extends AppPanel{
     public MinefieldPanel(AppFactory f) {
         super(f);
+
         view.setBackground(Color.LIGHT_GRAY);
         FRAME_WIDTH = 900;
         FRAME_HEIGHT = 500;
         frame.setSize(FRAME_WIDTH,FRAME_HEIGHT);
+
         controlPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.CENTER;
@@ -76,7 +78,19 @@ public class MinefieldPanel extends AppPanel{
     }
 
     public void handleException(Exception e){
-        Utilities.error(e);
+        if(e.getMessage().equals ("lose")) {
+            Utilities.inform("You died.");
+            model = factory.makeModel();
+            view.setModel(model);
+        }
+        else if(e.getMessage().equals("win")){
+            Utilities.inform("You won.");
+            model = factory.makeModel();
+            view.setModel(model);
+        }
+        else{
+            Utilities.error(e);
+        }
     }
 
     public static void main(String[] args) {

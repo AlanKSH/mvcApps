@@ -12,10 +12,9 @@ public class MinefieldFactory implements AppFactory{
         return "Mine Field";
     }
     public String[] getHelp(){
-        //finish
-        return new String[]{"Click a button to move Sgt. Rock, but avoid moving onto mines.",
-                "The blue tile shows Rock's current location, and the number on each tile represents the number of mines surrounding it."
-        , "Reach the bottom right tile to win."};
+        return new String[]{"Click a button to move Sgt. Rock, but avoid moving onto mines."
+                , "The blue tile shows Rock's current location, and the number on each tile represents the number of mines surrounding it."
+                , "Reach the bottom right tile to win."};
     }
     public String about(){
         return "Mine Field by Kevin Chu, Alan Kashiwagi, Jeremy Trieu";

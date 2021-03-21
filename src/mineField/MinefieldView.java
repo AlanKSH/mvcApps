@@ -23,9 +23,9 @@ public class MinefieldView extends View {
         // Set view size to the Minefield world size
         labels = new JLabel[Minefield.WORLD_SIZE][Minefield.WORLD_SIZE];
         this.setLayout(new GridLayout(Minefield.WORLD_SIZE, Minefield.WORLD_SIZE));
+
         // j indicates the row, which is the y-axis, i indicates column, which is the x-axis
         // Rows must be traversed one at a time, so the outer loop must be the row loop
-
         for(int j = 0; j < Minefield.WORLD_SIZE; j++) {
             for(int i = 0; i < Minefield.WORLD_SIZE; i++) {
                 labels[i][j] = new JLabel("?");
@@ -33,6 +33,9 @@ public class MinefieldView extends View {
                 this.add(labels[i][j]);
             }
         }
+
+        // Set top right block to have a current block's border color and number of surrounding mines by default
+        // This is the block that the player starts on
         labels[0][0].setBorder(BLOCK_CURRENT);
         labels[0][0].setText(Integer.toString(mf.getSurroundingMines()));
         // Set bottom right block to have a green border, since that is the goal the player must reach

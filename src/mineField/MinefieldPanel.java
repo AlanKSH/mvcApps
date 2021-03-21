@@ -10,10 +10,10 @@ public class MinefieldPanel extends AppPanel{
         super(f);
 
         // Set frame size and also set the background color for view
-        view.setBackground(Color.LIGHT_GRAY);
         FRAME_WIDTH = 1100;
         FRAME_HEIGHT = 600;
         frame.setSize(FRAME_WIDTH,FRAME_HEIGHT);
+        view.setBackground(Color.LIGHT_GRAY);
 
         // controlPanel uses a 3x3 GridBagLayout
         // Buttons are anchored toward the center
@@ -80,8 +80,10 @@ public class MinefieldPanel extends AppPanel{
         controlPanel.add(southWestButton,c);
     }
 
-    /* handleException method may be called when executing the move command
-    When called, starts a new game if the player wins or loses.
+    /* handleException method overrides parent method and
+    may be called when the move command throws an exception,
+    or another exception is thrown by a command.
+    When called, it starts a new game if the player wins or loses.
     If another exception is thrown, an error box is displayed.
      */
     public void handleException(Exception e){

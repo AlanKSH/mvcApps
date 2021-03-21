@@ -1,6 +1,9 @@
 package mineField;
 
+import java.awt.Color;
 import java.util.*;
+import java.util.List;
+import tools.*;
 import mvc.*;
 
 public class Minefield extends Model {

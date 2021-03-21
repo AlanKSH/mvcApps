@@ -9,8 +9,12 @@ import java.beans.PropertyChangeEvent;
 
 public class MinefieldView extends View {
     private Minefield mf;
+    private int archiveX;
+    private int archiveY;
     private static Border BLOCK_UNSEEN = BorderFactory.createLineBorder(Color.BLACK);
     private static Border BLOCK_VISITED = BorderFactory.createLineBorder(Color.WHITE);
+    private static Border BLOCK_CURRENT = BorderFactory.createLineBorder(Color.BLUE);
+    private static Border BLOCK_GOAL = BorderFactory.createLineBorder(Color.GREEN);
     private JLabel[][] labels;
 
     public MinefieldView(Model m) {
@@ -27,7 +31,10 @@ public class MinefieldView extends View {
                 this.add(labels[i][j]);
             }
         }
-        model.changed();
+        labels[0][0].setBorder(BLOCK_CURRENT);
+        labels[0][0].setText(Integer.toString(mf.getSurroundingMines()));
+        // Set bottom right block to have a green border, since that is the goal the player must reach
+        labels[Minefield.WORLD_SIZE - 1][Minefield.WORLD_SIZE - 1].setBorder(BLOCK_GOAL);
     }
 
     /* setModel method call model.setModel and redraws all the labels
@@ -35,6 +42,8 @@ public class MinefieldView extends View {
     public void setModel(Model m){
         super.setModel(m);
         mf = (Minefield) m;
+        archiveX = 0;
+        archiveY = 0;
         // Redraw all the blocks
         for(int j = 0; j < Minefield.WORLD_SIZE; j++) {
             for(int i = 0; i < Minefield.WORLD_SIZE; i++) {
@@ -52,12 +61,23 @@ public class MinefieldView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent arg0) {
-        // Locate the patch occupied by the player
+        // Get the coordinates of the block occupied by the player
         int currentX = mf.getXpos();
         int currentY = mf.getYpos();
 
-        // Modify the label, border, and/or background color of the corresponding JLabel
-        labels[currentX][currentY].setText(String.valueOf(mf.getSurroundingMines()));
-        labels[currentX][currentY].setBorder(BLOCK_VISITED);
+        // Debug printlns, these can be commented out or removed later
+        System.out.println(currentX + ", " + currentY);
+        System.out.println(mf.getSurroundingMines());
+
+        // Modify the text and border color of the corresponding JLabel
+        labels[currentX][currentY].setText(Integer.toString(mf.getSurroundingMines()));
+        // Use blue to denote the block that the player is currently standing on
+        labels[currentX][currentY].setBorder(BLOCK_CURRENT);
+
+        // Use white to denote blocks that have already been visited, but are not the current block
+        labels[archiveX][archiveY].setBorder(BLOCK_VISITED);
+        // Keep a record of the last visited block's coordinates
+        archiveX = currentX;
+        archiveY = currentY;
     }
 }

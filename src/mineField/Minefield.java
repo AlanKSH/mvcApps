@@ -1,395 +1,161 @@
-import java.awt.Color;
+package mineField;
+
 import java.util.*;
 import java.util.List;
-import tools.*;
-public class MineField extends Bean {
+import mvc.*;
+
+public class Minefield extends Model {
     public static Integer WORLD_SIZE = 20;
-    Block location;
-    List<Block> path;
+    int x, y;
+    Set<Block> path;
     boolean takenFlag;
     boolean checkMineFlag;
     private Heading direction;
-    Block [][] boardArray = new Block[WORLD_SIZE][WORLD_SIZE];
+    Block[][] boardArray = new Block[WORLD_SIZE][WORLD_SIZE];
 
-    public MineField() {
-        for (int i = 0; i <WORLD_SIZE; i++)
-        {
-            for (int j = 0; j <WORLD_SIZE; j++)
-            {
-                boardArray[i][j]=new Block(i, j);
+    public Minefield() {
+        x = y = 0;
+        for (int i = 0; i < WORLD_SIZE; i++) {
+            for (int j = 0; j < WORLD_SIZE; j++) {
+                boardArray[i][j] = new Block(i, j);
             }
         }
-        location = boardArray[0][0];
-        path = new LinkedList<Block>();
+        boardArray[WORLD_SIZE-1][WORLD_SIZE-1].setEndPoint(true);
+        path = new HashSet<>();
+        path.add(boardArray[0][0]);
         takenFlag = true;
         checkMineFlag = false;
-
-
-    }
-    public void setLocation(Block currentBlock) {
-        location = currentBlock;
     }
 
-    public List<Block> getPath() {
+    public Set<Block> getPath() {
         return path;
-    }
-
-    public void setTakenFlag() {
-        takenFlag = true;
-        path.add(location);
-
-        firePropertyChange(null, null, null);
     }
 
     private void setMineFlag() {
         Random rd = new Random();
         checkMineFlag = rd.nextBoolean();
     }
+
     private boolean isMineFlag() {
         if (checkMineFlag == true)
             return true;
         else return false;
     }
 
+    public int getYpos() {
+        return y;
+    }
+
+    public int getXpos() {
+        return x;
+    }
+
     public int getSurroundingMines() {
         int count = 0;
-        List<Block> tempList = new LinkedList<Block>();
-        if ((location.getXCoor() ==0)&& (location.getYCoor() == 0)) {
-            Block b1 = boardArray[location.getXCoor()][location.getYCoor() + 1];
-            Block b2 = boardArray[location.getXcoor() +1][location.getYCoor()];
-            Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-
-
+        List<Block> tempList = new LinkedList<>();
+        // Check each edge case one at a time to see if the surrounding block is inbounds
+        if (x != 0) {
+            tempList.add(boardArray[x - 1][y]);
         }
-        else if (location.getXCoor() == 0) {
-            Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
-            Block b2 = boardArray[location.getXcoor() +1][location.getYCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor()];
-            Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
-            Block b5 = boardArray[location.getXCoor()][location.getYCoor() + 1];
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
+        if (y != 0) {
+            tempList.add(boardArray[x][y - 1]);
         }
-        else if (location.getYCoor() == 0) {
-            Block b1 = boardArray[location.getXCoor() - 1][location.yCoor()];
-            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() + 1];
-            Block b3 = boardArray[location.getXCoor()][location.yCoor() + 1];
-            Block b4 = boardArray[location.getXCoor() + 1][location.yCoor() + 1];
-            Block b5 = boardArray[location.getXCoor() + 1][location.yCoor()];
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
+        if (x != WORLD_SIZE - 1) {
+            tempList.add(boardArray[x + 1][y]);
         }
-        else if ((location.getXcoor() == WORLD_SIZE - 1) && (location.getYcoor() == 0)) {
-            Block b1 = boardArray[location.getXCoor() - 1][location.yCoor()];
-            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() + 1];
-            Block b3 = boardArray[location.getXCoor()][location.yCoor() + 1];
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
+        if (y != WORLD_SIZE - 1) {
+            tempList.add(boardArray[x][y + 1]);
         }
-        else if (location.getXcoor() == WORLD_SIZE - 1) {
-            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
-            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() - 1][location.yCoor()];
-            Block b4 = boardArray[location.getXCoor() - 1][location.yCoor() + 1];
-            Block b5 = boardArray[location.getXCoor()][location.yCoor() + 1];
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
+        if (x != 0 && y != 0) {
+            tempList.add(boardArray[x - 1][y - 1]);
         }
-        else if ((location.getYcoor() == WORLD_SIZE - 1) && (location.getXcoor() == 0)) {
-            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
-            Block b2 = boardArray[location.getXcoor() + 1][location.yCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() + 1][location.yCoor()];
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
+        if (x != 0 && y != WORLD_SIZE - 1) {
+            tempList.add(boardArray[x - 1][y + 1]);
         }
-
-        else if (location.getYcoor() == WORLD_SIZE - 1) {
-            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
-            Block b2 = boardArray[location.getXcoor() + 1][location.yCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() + 1][location.yCoor()];
-            Block b4 = boardArray[location.getXCoor() + 1][location.yCoor() + 1];
-            Block b5 = boardArray[location.getXCoor()][location.yCoor() + 1];
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
+        if (x != WORLD_SIZE - 1 && y != 0) {
+            tempList.add(boardArray[x + 1][y - 1]);
         }
-
-        else {
-            Block b1 = boardArray[location.getXCoor() - 1][location.getYCoor()];
-            Block b2 = boardArray[location.getXcoor() - 1][location.getYCoor() + 1];
-            Block b3 = boardArray[location.getXCoor()][location.getYCoor() + 1];
-            Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
-            Block b5 = boardArray[location.getXCoor() + 1][location.getYCoor()];
-            Block b6 = boardArray[location.getXCoor() - 1][location.getYCoor() - 1];
-            Block b7 = boardArray[location.getXCoor()][location.getYCoor() - 1];
-            Block b8 = boardArray[location.getXCoor() + 1][location.getYCoor() - 1];
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
-            tempList.add(b6);
-            tempList.add(b7);
-            tempList.add(b8);
+        if (x != WORLD_SIZE - 1 && y != WORLD_SIZE - 1) {
+            tempList.add(boardArray[x + 1][y + 1]);
         }
 
         for (Block x : tempList) {
             if (x.blockHasMine() == true) count++;
         }
+
         return count;
     }
 
-    /*public List<Block> getPredictedBlocks() {
-        List<Block> listBlock = new LinkedList<Block>();
-        List<Block> tempList = new LinkedList<Block>();
-        if ((location.getXCoor() ==0)&& (location.getYCoor() == 0)) {
-            Block b1 = new Block(location.getXCoor(), location.getYCoor() + 1);
-            Block b2 = new Block(location.getXcoor() +1, location.getYCoor());
-            Block b3 = new Block(location.getXCoor() + 1, location.getYCoor() + 1);
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
 
-        }
-        else if (location.getXCoor() == 0) {
-            Block b1 = new Block(location.getXCoor(), location.getYCoor() - 1);
-            Block b2 = new Block(location.getXcoor() +1, location.getYCoor() - 1);
-            Block b3 = new Block(location.getXCoor() + 1, location.getYCoor());
-            Block b4 = new Block(location.getXCoor() + 1, location.getYCoor() + 1);
-            Block b5 = new Block(location.getXCoor(), location.getYCoor() + 1);
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
-        }
-        else if (location.getYCoor() == 0) {
-            Block b1 = new Block(location.getXCoor() - 1, location.yCoor());
-            Block b2 = new Block(location.getXcoor() - 1, location.yCoor() + 1);
-            Block b3 = new Block(location.getXCoor(), location.yCoor() + 1);
-            Block b4 = new Block(location.getXCoor() + 1, location.yCoor() + 1);
-            Block b5 = new Block(location.getXCoor() + 1 , location.yCoor());
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
-        }
-        else if ((location.getXcoor() == WORLD_SIZE - 1) && (location.getYcoor() == 0)) {
-            Block b1 = new Block(location.getXCoor() - 1, location.yCoor());
-            Block b2 = new Block(location.getXcoor() - 1, location.yCoor() + 1);
-            Block b3 = new Block(location.getXCoor(), location.yCoor() + 1);
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-        }
-        else if (location.getXcoor() == WORLD_SIZE - 1) {
-            Block b1 = new Block(location.getXCoor(), location.yCoor() - 1);
-            Block b2 = new Block(location.getXcoor() - 1, location.yCoor() - 1);
-            Block b3 = new Block(location.getXCoor() - 1, location.yCoor());
-            Block b4 = new Block(location.getXCoor() - 1, location.yCoor() + 1);
-            Block b5 = new Block(location.getXCoor(), location.yCoor() + 1);
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
-        }
-        else if ((location.getYcoor() == WORLD_SIZE - 1) && (location.getXcoor() == 0)) {
-            Block b1 = new Block(location.getXCoor(), location.yCoor() - 1);
-            Block b2 = new Block(location.getXcoor() + 1, location.yCoor() - 1);
-            Block b3 = new Block(location.getXCoor() + 1, location.yCoor());
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-        }
-
-        else if (location.getYcoor() == WORLD_SIZE - 1) {
-            Block b1 = new Block(location.getXCoor(), location.yCoor() - 1);
-            Block b2 = new Block(location.getXcoor() + 1, location.yCoor() - 1);
-            Block b3 = new Block(location.getXCoor() + 1, location.yCoor());
-            Block b4 = new Block(location.getXCoor() + 1, location.yCoor() + 1);
-            Block b5 = new Block(location.getXCoor(), location.yCoor() + 1);
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
-        }
-
-        else {
-            Block b1 = new Block(location.getXCoor() - 1, location.getYCoor());
-            Block b2 = new Block(location.getXcoor() - 1, location.getYCoor() + 1);
-            Block b3 = new Block(location.getXCoor(), location.getYCoor() + 1);
-            Block b4 = new Block(location.getXCoor() + 1, location.getYCoor() + 1);
-            Block b5 = new Block(location.getXCoor() + 1, location.getYCoor());
-            Block b6 = new Block(location.getXCoor() - 1, location.getYCoor() - 1);
-            Block b7 = new Block(location.getXCoor(), location.getYCoor() - 1);
-            Block b8 = new Block(location.getXCoor() + 1, location.getYCoor() - 1);
-
-            tempList.add(b1);
-            tempList.add(b2);
-            tempList.add(b3);
-            tempList.add(b4);
-            tempList.add(b5);
-            tempList.add(b6);
-            tempList.add(b7);
-            tempList.add(b8);
-        }
-        for (Block x : tempList) {
-            if (path.contains(x)) continue;
-            else listBlock.add(x);
-        }
-
-        return listBlock;
-    }*/
-
-    public boolean checkGetMined() {
-        if (path.get(path.size() - 1).blockHasMine() == true){
-            return true;
-            //System.out.println("Game Over!!!");
-        }
-        else return false;
-
-    }
     public boolean checkGetHome() {
-        if ((location.getXCoor() == WORLD_SIZE - 1) &&
-        (location.getYCoor() == WORLD_SIZE - 1)) {
+        if ((x == WORLD_SIZE - 1) && (y == WORLD_SIZE - 1)) {
             return true;
             //win game!!!!
-        }
-        else return false;
+        } else return false;
 
     }
-    public void move() {
-        if ((checkGetMined() == true) || (checkGetHome() == true)) {
-          return;
-        }
-        else {
-          Block tempBlock = null;
-          if (direction == Heading.NORTH) {
-              if (location.getYCoor() != 0) {
-                Block newMove = new Block(location.getXCoor(), location.getYCoor() - 1);
-                path.add(location);
-                location = newMove;
-              }
-          }
 
-          if (direction == Heading.SOUTH) {
-              if (location.getYCoor() !=  WORLD_SIZE - 1) {
-                Block newMove = new Block(location.getXCoor(), location.getYCoor() + 1);
-                path.add(location);
-                location = newMove;
-              }
-
-          }
-
-          if (direction == Heading.EAST) {
-              if (location.getXCoor() !=  WORLD_SIZE - 1) {
-                Block newMove = new Block(location.getXCoor() + 1, location.getYCoor());
-                path.add(location);
-                location = newMove;
-              }
-
-          }
-
-          if (direction == Heading.WEST) {
-              if (location.getXCoor() !=  0) {
-                Block newMove = new Block(location.getXCoor() - 1, location.getYCoor());
-                path.add(location);
-                location = newMove;
-              }
-
-          }
-
-          if (direction == Heading.NORTH_WEST) {
-              if ((location.getXCoor == 0) || (location.getYCoor == 0)) {
-                return;
-              }
-              else {
-                Block newMove = new Block(location.getXCoor() - 1, location.getYCoor() - 1);
-                path.add(location);
-                location = newMove;
-              }
-
-          }
-
-          if (direction == Heading.NORTH_EAST) {
-            if ((location.getXCoor == WORLD_SIZE - 1) || (location.getYCoor == 0)) {
-              return;
-            }
-            else {
-              Block newMove = new Block(location.getXCoor() + 1, location.getYCoor() - 1);
-              path.add(location);
-              location = newMove;
-            }
-          }
-
-          if (direction == Heading.SOUTH_WEST) {
-            if ((location.getXCoor == 0) || (location.getYCoor == WORLD_SIZE - 1)) {
-              return;
-            }
-            else {
-              Block newMove = new Block(location.getXCoor() - 1, location.getYCoor() + 1);
-              path.add(location);
-              location = newMove;
-            }
-          }
-
-          if (direction == Heading.SOUTH_EAST) {
-            if ((location.getXCoor == WORLD_SIZE - 1) || (location.getYCoor == WORLD_SIZE - 1)) {
-              return;
-            }
-            else {
-              Block newMove = new Block(location.getXCoor() + 1, location.getYCoor() + 1);
-              path.add(location);
-              location = newMove;
-
-            }
-          }
+    /* move method moves the player in the direction of the heading
+    and adds the new block location to the path.
+    Method throws exceptions if the player steps on a mine or wins.
+     */
+    public void move() throws Exception {
+        int oldX = x;
+        int oldY = y;
+        if (direction == Heading.NORTH) {
+            y--;
+        }else if (direction == Heading.SOUTH) {
+            y++;
+        }else if (direction == Heading.EAST) {
+            x++;
+        }else if (direction == Heading.WEST) {
+            x--;
+        }else if (direction == Heading.NORTH_WEST) {
+            x--;
+            y--;
+        }else if (direction == Heading.NORTH_EAST) {
+            x++;
+            y--;
+        }else if (direction == Heading.SOUTH_WEST) {
+            x--;
+            y++;
+        }else if (direction == Heading.SOUTH_EAST) {
+            x++;
+            y++;
         }
 
+        // Constrict the player's movement if they try to move out of bounds
+        if (x >= WORLD_SIZE) {
+            x = WORLD_SIZE - 1;
+        } else if (x < 0) {
+            x = 0;
+        }
+
+        if (y >= WORLD_SIZE) {
+            y = WORLD_SIZE - 1;
+        } else if (y < 0) {
+            y = 0;
+        }
+
+        // The property change only happens if the move is successful
+        if(oldX!=x || oldY!=y){
+            // If the new block was added, set the surrounding mines
+            if(path.add(boardArray[x][y])){
+                boardArray[x][y].setSurroundingMines(getSurroundingMines());
+            }
+
+            changed(); // Fire the property change
+            // Check for win or lose conditions
+            if(boardArray[x][y].getEndPoint()){
+                throw new Exception("win");
+            }
+            if(boardArray[x][y].blockHasMine()){
+                throw new Exception("lose");
+            }
+        }
     }
 
     public void turn(Heading direction) {
         this.direction = direction;
     }
-
-    /*public int numsOfMine() {
-        int count = 0;
-        List<Block> tempMineList = getPredictedBlocks();
-        for (int i = 0; i < tempMineList.size(); i++) {
-            if (tempMineList.get(i).blockHasMine() == true) count++;
-        }
-        return count;
-    }*/
 }

@@ -8,9 +8,15 @@ import java.awt.*;
 public class MinefieldPanel extends AppPanel{
     public MinefieldPanel(AppFactory f) {
         super(f);
-        FRAME_WIDTH = 900;
-        FRAME_HEIGHT = 500;
+
+        // Set frame size and also set the background color for view
+        FRAME_WIDTH = 1100;
+        FRAME_HEIGHT = 600;
         frame.setSize(FRAME_WIDTH,FRAME_HEIGHT);
+        view.setBackground(Color.LIGHT_GRAY);
+
+        // controlPanel uses a 3x3 GridBagLayout
+        // Buttons are anchored toward the center
         controlPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.CENTER;
@@ -74,8 +80,26 @@ public class MinefieldPanel extends AppPanel{
         controlPanel.add(southWestButton,c);
     }
 
+    /* handleException method overrides parent method and
+    may be called when the move command throws an exception,
+    or another exception is thrown by a command.
+    When called, it starts a new game if the player wins or loses.
+    If another exception is thrown, an error box is displayed.
+     */
     public void handleException(Exception e){
-        Utilities.error(e);
+        if(e.getMessage().equals ("lose")) {
+            Utilities.inform("You died.");
+            model = factory.makeModel();
+            view.setModel(model);
+        }
+        else if(e.getMessage().equals("win")){
+            Utilities.inform("You won.");
+            model = factory.makeModel();
+            view.setModel(model);
+        }
+        else{
+            Utilities.error(e);
+        }
     }
 
     public static void main(String[] args) {

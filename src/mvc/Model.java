@@ -2,7 +2,7 @@ package mvc;
 
 import tools.Bean;
 
-public class Model extends Bean {
+abstract public class Model extends Bean {
     private boolean unsavedChanges = false;
     private String fileName = null;
 
@@ -17,6 +17,7 @@ public class Model extends Bean {
     }
 
     public void changed(){
+        // Fire a generic property change for the model
         firePropertyChange("Property",null,this);
         unsavedChanges = true;
     }

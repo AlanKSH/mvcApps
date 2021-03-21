@@ -87,7 +87,7 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
             } else if (cmmd.equals("About")) {
                 Utilities.inform(factory.about());
 
-            } else {
+            } else { // Command is a custom edit command
                 Command editCommand = factory.makeEditCommand(model, cmmd);
                 editCommand.execute();
             }

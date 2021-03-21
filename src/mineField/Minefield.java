@@ -31,13 +31,6 @@ public class Minefield extends Model {
         return path;
     }
 
-    public void setTakenFlag() {
-        takenFlag = true;
-        path.add(boardArray[x][y]);
-
-        firePropertyChange(null, null, null);
-    }
-
     private void setMineFlag() {
         Random rd = new Random();
         checkMineFlag = rd.nextBoolean();
@@ -107,6 +100,8 @@ public class Minefield extends Model {
     Method throws exceptions if the player steps on a mine or wins.
      */
     public void move() throws Exception {
+        int oldX = x;
+        int oldY = y;
         if (direction == Heading.NORTH) {
             y--;
         }else if (direction == Heading.SOUTH) {
@@ -142,16 +137,21 @@ public class Minefield extends Model {
             y = 0;
         }
 
-        // If the new block was added, set the surrounding mines
-        if(path.add(boardArray[x][y])){
-            boardArray[x][y].setSurroundingMines(getSurroundingMines());
-        }
-        changed(); // Fire the property change
-        if(boardArray[x][y].getEndPoint()){
-            throw new Exception("win");
-        }
-        if(boardArray[x][y].blockHasMine()){
-            throw new Exception("lose");
+        // The property change only happens if the move is successful
+        if(oldX!=x || oldY!=y){
+            // If the new block was added, set the surrounding mines
+            if(path.add(boardArray[x][y])){
+                boardArray[x][y].setSurroundingMines(getSurroundingMines());
+            }
+
+            changed(); // Fire the property change
+            // Check for win or lose conditions
+            if(boardArray[x][y].getEndPoint()){
+                throw new Exception("win");
+            }
+            if(boardArray[x][y].blockHasMine()){
+                throw new Exception("lose");
+            }
         }
     }
 

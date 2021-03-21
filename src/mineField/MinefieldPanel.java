@@ -9,11 +9,13 @@ public class MinefieldPanel extends AppPanel{
     public MinefieldPanel(AppFactory f) {
         super(f);
 
+        // Set frame size and set the background for view
         view.setBackground(Color.LIGHT_GRAY);
-        FRAME_WIDTH = 900;
-        FRAME_HEIGHT = 500;
+        FRAME_WIDTH = 1100;
+        FRAME_HEIGHT = 600;
         frame.setSize(FRAME_WIDTH,FRAME_HEIGHT);
 
+        // controlPanel uses a 3x3 GridBagLayout
         controlPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.CENTER;
@@ -77,6 +79,10 @@ public class MinefieldPanel extends AppPanel{
         controlPanel.add(southWestButton,c);
     }
 
+    /* handleException method may be called when executing the move command
+    When called, starts a new game if the player wins or loses.
+    If another exception is thrown, an error box is displayed.
+     */
     public void handleException(Exception e){
         if(e.getMessage().equals ("lose")) {
             Utilities.inform("You died.");

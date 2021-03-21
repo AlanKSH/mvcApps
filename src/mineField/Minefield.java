@@ -1,9 +1,7 @@
 package mineField;
 
-import java.awt.Color;
 import java.util.*;
 import java.util.List;
-import tools.*;
 import mvc.*;
 
 public class Minefield extends Model {
@@ -61,7 +59,8 @@ public class Minefield extends Model {
 
     public int getSurroundingMines() {
         int count = 0;
-        List<Block> tempList = new LinkedList<Block>();
+        List<Block> tempList = new LinkedList<>();
+        // Check each edge case one at a time to see if the surrounding block is inbounds
         if (x != 0) {
             tempList.add(boardArray[x - 1][y]);
         }
@@ -96,8 +95,7 @@ public class Minefield extends Model {
 
 
     public boolean checkGetHome() {
-        if ((x == WORLD_SIZE - 1) &&
-                (y == WORLD_SIZE - 1)) {
+        if ((x == WORLD_SIZE - 1) && (y == WORLD_SIZE - 1)) {
             return true;
             //win game!!!!
         } else return false;
@@ -111,54 +109,44 @@ public class Minefield extends Model {
     public void move() throws Exception {
         if (direction == Heading.NORTH) {
             y--;
-        }
-
-        if (direction == Heading.SOUTH) {
+        }else if (direction == Heading.SOUTH) {
             y++;
-        }
-
-        if (direction == Heading.EAST) {
+        }else if (direction == Heading.EAST) {
             x++;
-        }
-
-        if (direction == Heading.WEST) {
+        }else if (direction == Heading.WEST) {
             x--;
-        }
-
-        if (direction == Heading.NORTH_WEST) {
+        }else if (direction == Heading.NORTH_WEST) {
             x--;
             y--;
-        }
-
-        if (direction == Heading.NORTH_EAST) {
+        }else if (direction == Heading.NORTH_EAST) {
             x++;
             y--;
-        }
-
-        if (direction == Heading.SOUTH_WEST) {
+        }else if (direction == Heading.SOUTH_WEST) {
             x--;
             y++;
-        }
-
-        if (direction == Heading.SOUTH_EAST) {
+        }else if (direction == Heading.SOUTH_EAST) {
             x++;
             y++;
         }
+
+        // Constrict the player's movement if they try to move out of bounds
         if (x >= WORLD_SIZE) {
-            x--;
+            x = WORLD_SIZE - 1;
         } else if (x < 0) {
-            x++;
+            x = 0;
         }
+
         if (y >= WORLD_SIZE) {
-            y--;
+            y = WORLD_SIZE - 1;
         } else if (y < 0) {
-            y++;
+            y = 0;
         }
+
         // If the new block was added, set the surrounding mines
         if(path.add(boardArray[x][y])){
             boardArray[x][y].setSurroundingMines(getSurroundingMines());
         }
-        changed();
+        changed(); // Fire the property change
         if(boardArray[x][y].getEndPoint()){
             throw new Exception("win");
         }

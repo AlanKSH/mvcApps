@@ -20,10 +20,12 @@ public class MinefieldView extends View {
     public MinefieldView(Model m) {
         super(m);
         mf = (Minefield) model;
-        // Might need to use a constant for grid size instead, not sure
+        // Set view size to the Minefield world size
         labels = new JLabel[Minefield.WORLD_SIZE][Minefield.WORLD_SIZE];
         this.setLayout(new GridLayout(Minefield.WORLD_SIZE, Minefield.WORLD_SIZE));
-        // j indicates column, i indicates row
+        // j indicates the row, which is the y-axis, i indicates column, which is the x-axis
+        // Rows must be traversed one at a time, so the outer loop must be the row loop
+
         for(int j = 0; j < Minefield.WORLD_SIZE; j++) {
             for(int i = 0; i < Minefield.WORLD_SIZE; i++) {
                 labels[i][j] = new JLabel("?");
@@ -37,26 +39,26 @@ public class MinefieldView extends View {
         labels[Minefield.WORLD_SIZE - 1][Minefield.WORLD_SIZE - 1].setBorder(BLOCK_GOAL);
     }
 
-    /* setModel method call model.setModel and redraws all the labels
+    /* setModel method calls View.setModel and redraws all the labels
      */
     public void setModel(Model m){
         super.setModel(m);
         mf = (Minefield) m;
         archiveX = 0;
         archiveY = 0;
-        // Redraw all the blocks
+        // Redraw every block the the default border and "?" text
         for(int j = 0; j < Minefield.WORLD_SIZE; j++) {
             for(int i = 0; i < Minefield.WORLD_SIZE; i++) {
                 labels[i][j].setText("?");
                 labels[i][j].setBorder(BLOCK_UNSEEN);
             }
         }
-        // Draw the path
+        // Draw blocks that have been previously visited on open command
         for(Block b: mf.getPath()){
             labels[b.getXCoor()][b.getYCoor()].setText(String.valueOf(b.getSurroundingMines()));
             labels[b.getXCoor()][b.getYCoor()].setBorder(BLOCK_VISITED);
         }
-        model.changed();
+        mf.changed();
     }
 
     @Override

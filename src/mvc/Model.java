@@ -17,6 +17,7 @@ abstract public class Model extends Bean {
     }
 
     public void changed(){
+        // Fire a generic property change for the model
         firePropertyChange("Property",null,this);
         unsavedChanges = true;
     }

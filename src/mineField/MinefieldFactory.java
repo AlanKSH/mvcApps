@@ -13,7 +13,8 @@ public class MinefieldFactory implements AppFactory{
     }
     public String[] getHelp(){
         //finish
-        return new String[]{"Click a button to move, but avoid moving onto mines.", "The number on each tile represents the number of mines surrounding it."
+        return new String[]{"Click a button to move Sgt. Rock, but avoid moving onto mines.",
+                "The blue tile shows Rock's current location, and the number on each tile represents the number of mines surrounding it."
         , "Reach the bottom right tile to win."};
     }
     public String about(){

@@ -1,21 +1,21 @@
 package mineField;
 
 import mvc.*;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 
 public class MinefieldView extends View {
-    private Minefield mf;
-    private int archiveX;
-    private int archiveY;
     private static Border BLOCK_UNSEEN = BorderFactory.createLineBorder(Color.BLACK);
     private static Border BLOCK_VISITED = BorderFactory.createLineBorder(Color.WHITE);
     private static Border BLOCK_CURRENT = BorderFactory.createLineBorder(Color.BLUE);
     private static Border BLOCK_GOAL = BorderFactory.createLineBorder(Color.GREEN);
     private static int WORLD_SIZE = 20;
+
+    private Minefield mf;
+    private int archiveX;
+    private int archiveY;
     private JLabel[][] labels = new JLabel[WORLD_SIZE][WORLD_SIZE];;
 
     public MinefieldView(Model m) {
@@ -33,13 +33,15 @@ public class MinefieldView extends View {
             }
         }
 
-        // Set top right block to have a current block's border color and number of surrounding mines by default, since it's the block that the player starts on
+        // Set top right block to have a current block's border color and number of surrounding mines by default
+        // This is the block that the player starts on
         labels[0][0].setBorder(BLOCK_CURRENT);
         labels[0][0].setText(Integer.toString(mf.getSurroundingMines()));
         // Set bottom right block to have a green border, since that is the goal the player must reach
         labels[WORLD_SIZE - 1][WORLD_SIZE - 1].setBorder(BLOCK_GOAL);
     }
 
+    // Handles changes to the Minefield's blocks, represented by JPanels
     @Override
     public void propertyChange(PropertyChangeEvent arg0) {
         // Get the coordinates of the block occupied by the player

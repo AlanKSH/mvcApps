@@ -1,16 +1,12 @@
 package mineField;
 
-import java.awt.Color;
-import java.lang.invoke.WrongMethodTypeException;
 import java.util.*;
-import java.util.List;
-import tools.*;
 import mvc.*;
 
 public class Minefield extends Model {
     public static Integer WORLD_SIZE = 20;
     int x, y;
-    List<Block> path;
+    Set<Block> path;
     boolean takenFlag;
     boolean checkMineFlag;
     private Heading direction;
@@ -24,12 +20,13 @@ public class Minefield extends Model {
             }
         }
         boardArray[WORLD_SIZE-1][WORLD_SIZE-1].setEndPoint(true);
-        path = new LinkedList<Block>();
+        path = new HashSet<>();
+        path.add(boardArray[0][0]);
         takenFlag = true;
         checkMineFlag = false;
     }
 
-    public List<Block> getPath() {
+    public Set<Block> getPath() {
         return path;
     }
 
@@ -90,17 +87,10 @@ public class Minefield extends Model {
         for (Block x : tempList) {
             if (x.blockHasMine() == true) count++;
         }
+
         return count;
     }
 
-
-    public boolean checkGetMined() {
-        if (path.get(path.size() - 1).blockHasMine() == true) {
-            return true;
-            //System.out.println("Game Over!!!");
-        } else return false;
-
-    }
 
     public boolean checkGetHome() {
         if ((x == WORLD_SIZE - 1) &&
@@ -112,7 +102,8 @@ public class Minefield extends Model {
     }
 
     /* move method moves the player in the direction of the heading
-    throws exceptions if the player steps on a mine or wins
+    and adds the new block location to the path.
+    Method throws exceptions if the player steps on a mine or wins.
      */
     public void move() throws Exception {
         if (direction == Heading.NORTH) {
@@ -159,6 +150,10 @@ public class Minefield extends Model {
             y--;
         } else if (y < 0) {
             y++;
+        }
+        // If the new block was added, set the surrounding mines
+        if(path.add(boardArray[x][y])){
+            boardArray[x][y].setSurroundingMines(getSurroundingMines());
         }
         changed();
         if(boardArray[x][y].getEndPoint()){

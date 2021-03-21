@@ -6,6 +6,7 @@ public class Block implements Serializable {
     int yCoor;
     private Boolean hasMine;
     private Boolean endPoint;
+    private int surroundingMines;
 
     public Block(int xCoor, int yCoor) {
         this.xCoor = xCoor;
@@ -24,6 +25,8 @@ public class Block implements Serializable {
     public void setY(int yCoor) {
         this.yCoor = yCoor;
     }
+    public void setSurroundingMines(int mines){ surroundingMines = mines; }
+    public int getSurroundingMines(){ return surroundingMines; }
     public int getXCoor() {
         return xCoor;
     }
@@ -36,7 +39,6 @@ public class Block implements Serializable {
     public void setEndPoint(Boolean endPoint) {
         this.endPoint = endPoint;
     }
-
     public Boolean blockHasMine() {
         return hasMine;
     }

@@ -31,16 +31,21 @@ public class MinefieldView extends View {
     }
 
     /* setModel method call model.setModel and redraws all the labels
-    Currently does not draw visited tiles when opening a model
      */
     public void setModel(Model m){
         super.setModel(m);
         mf = (Minefield) m;
+        // Redraw all the blocks
         for(int j = 0; j < Minefield.WORLD_SIZE; j++) {
             for(int i = 0; i < Minefield.WORLD_SIZE; i++) {
                 labels[i][j].setText("?");
                 labels[i][j].setBorder(BLOCK_UNSEEN);
             }
+        }
+        // Draw the path
+        for(Block b: mf.getPath()){
+            labels[b.getXCoor()][b.getYCoor()].setText(String.valueOf(b.getSurroundingMines()));
+            labels[b.getXCoor()][b.getYCoor()].setBorder(BLOCK_VISITED);
         }
         model.changed();
     }

@@ -9,7 +9,10 @@ public class MinefieldCommand extends Command {
         heading = h;
     }
 
-    public void execute() {
+    /* execute method sets the heading of the model, and moves it
+    throws exceptions in case move() moves onto a mine or wins
+     */
+    public void execute() throws Exception{
         Minefield minefield = (Minefield) model;
         minefield.turn(heading);
         minefield.move();

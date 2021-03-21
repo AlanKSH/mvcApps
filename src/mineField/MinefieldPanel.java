@@ -9,13 +9,14 @@ public class MinefieldPanel extends AppPanel{
     public MinefieldPanel(AppFactory f) {
         super(f);
 
-        // Set frame size and set the background for view
+        // Set frame size and also set the background color for view
         view.setBackground(Color.LIGHT_GRAY);
         FRAME_WIDTH = 1100;
         FRAME_HEIGHT = 600;
         frame.setSize(FRAME_WIDTH,FRAME_HEIGHT);
 
         // controlPanel uses a 3x3 GridBagLayout
+        // Buttons are anchored toward the center
         controlPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.CENTER;

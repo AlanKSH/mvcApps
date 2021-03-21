@@ -68,8 +68,8 @@ public class MinefieldView extends View {
         int currentY = mf.getYpos();
 
         // Debug printlns, these can be commented out or removed later
-        System.out.println(currentX + ", " + currentY);
-        System.out.println(mf.getSurroundingMines());
+/*        System.out.println(currentX + ", " + currentY);
+        System.out.println(mf.getSurroundingMines());*/
 
         // Modify the text and border color of the corresponding JLabel
         labels[currentX][currentY].setText(Integer.toString(mf.getSurroundingMines()));

@@ -47,8 +47,10 @@ public class MinefieldView extends View {
     public void setModel(Model m){
         super.setModel(m);
         mf = (Minefield) m;
-        archiveX = 0;
-        archiveY = 0;
+        int currentX = mf.getXpos();
+        int currentY = mf.getYpos();
+        archiveX = currentX;
+        archiveY = currentY;
         // Redraw every block the the default border and "?" text
         for(int j = 0; j < Minefield.WORLD_SIZE; j++) {
             for(int i = 0; i < Minefield.WORLD_SIZE; i++) {
@@ -62,8 +64,9 @@ public class MinefieldView extends View {
             labels[b.getXCoor()][b.getYCoor()].setBorder(BLOCK_VISITED);
         }
         // Set current block and goal block borders again
-        labels[0][0].setBorder(BLOCK_CURRENT);
-        labels[0][0].setText(Integer.toString(mf.getSurroundingMines()));
+
+        labels[currentX][currentY].setBorder(BLOCK_CURRENT);
+        labels[currentX][currentY].setText(Integer.toString(mf.getSurroundingMines()));
 
         labels[Minefield.WORLD_SIZE - 1][Minefield.WORLD_SIZE - 1].setBorder(BLOCK_GOAL);
 

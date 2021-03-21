@@ -72,15 +72,14 @@ public class MinefieldView extends View {
 
     }
 
+    /* propertyChange detects when a PropertyChangeEvent is fired
+    It sets the border for the current block and draws the border for the last block visited
+     */
     @Override
     public void propertyChange(PropertyChangeEvent arg0) {
         // Get the coordinates of the block occupied by the player
         int currentX = mf.getXpos();
         int currentY = mf.getYpos();
-
-        // Debug printlns, these can be commented out or removed later
-/*        System.out.println(currentX + ", " + currentY);
-        System.out.println(mf.getSurroundingMines());*/
 
         // Modify the text and border color of the corresponding JLabel
         labels[currentX][currentY].setText(Integer.toString(mf.getSurroundingMines()));

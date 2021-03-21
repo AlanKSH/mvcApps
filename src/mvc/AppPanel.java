@@ -13,6 +13,9 @@ import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/* AppPanel class contains a controlPanel and a view in two grid tiles.
+Protected members can be accessed in child classes to enable customization.
+ */
 public class AppPanel extends JPanel implements ActionListener, PropertyChangeListener {
     protected View view;
     protected Model model;
@@ -96,10 +99,15 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
         }
     }
 
+    /* handleException method can be called while running commands.
+    Prints an error message if an exception is thrown.
+    This method may be overridden in the child class to enable special events for exceptions.
+     */
     public void handleException(Exception e){
         Utilities.error(e);
     }
 
+    // saveAs method saves by prompting the user to enter a file name
     public void saveAs() throws Exception{
         String fName = Utilities.getFileName(null, false);
         if(!fName.isEmpty()) {
@@ -111,6 +119,9 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
         }
     }
 
+    /* save method attempts to save if the filename is already set,
+    or it calls saveAs if not
+     */
     public void save() throws Exception{
         if (model.getFileName() == null){
             saveAs();

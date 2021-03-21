@@ -4,6 +4,10 @@ import java.util.*;
 import java.util.List;
 import mvc.*;
 
+/* In the Minefield class, Blocks in the boardArray[][] represent tiles.
+The player location is represented by x and y.
+Positive x moves right, positive y moves down.
+ */
 public class Minefield extends Model {
     public static Integer WORLD_SIZE = 20;
     int x, y;

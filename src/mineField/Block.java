@@ -11,8 +11,12 @@ public class Block implements Serializable {
         this.xCoor = xCoor;
         this.yCoor = yCoor;
         endPoint = false;
-        Random rand = new Random();
-        hasMine = rand.nextBoolean();
+        if(Math.random()>.9){
+            hasMine = true;
+        }
+        else{
+            hasMine = false;
+        }
     }
     public void setX(int xCoor) {
         this.xCoor = xCoor;

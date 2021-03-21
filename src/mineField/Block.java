@@ -2,6 +2,7 @@ package mineField;
 import java.io.Serializable;
 import java.util.*;
 public class Block implements Serializable {
+    public static int percentMined = 10;
     int xCoor;
     int yCoor;
     private Boolean hasMine;
@@ -12,11 +13,11 @@ public class Block implements Serializable {
         this.xCoor = xCoor;
         this.yCoor = yCoor;
         endPoint = false;
-        if(Math.random()>.9){
-            hasMine = true;
+        if(Math.random()> (double) percentMined / 100){
+            hasMine = false;
         }
         else{
-            hasMine = false;
+            hasMine = true;
         }
     }
     public void setX(int xCoor) {

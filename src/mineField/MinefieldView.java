@@ -61,7 +61,12 @@ public class MinefieldView extends View {
             labels[b.getXCoor()][b.getYCoor()].setText(String.valueOf(b.getSurroundingMines()));
             labels[b.getXCoor()][b.getYCoor()].setBorder(BLOCK_VISITED);
         }
-        mf.changed();
+        // Set current block and goal block borders again
+        labels[0][0].setBorder(BLOCK_CURRENT);
+        labels[0][0].setText(Integer.toString(mf.getSurroundingMines()));
+
+        labels[Minefield.WORLD_SIZE - 1][Minefield.WORLD_SIZE - 1].setBorder(BLOCK_GOAL);
+
     }
 
     @Override

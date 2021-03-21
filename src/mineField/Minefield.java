@@ -1,12 +1,8 @@
-package mineField;
-
 import java.awt.Color;
 import java.util.*;
 import java.util.List;
 import tools.*;
-import mvc.*;
-
-public class Minefield extends Model {
+public class MineField extends Bean {
     public static Integer WORLD_SIZE = 20;
     Block location;
     List<Block> path;
@@ -15,7 +11,7 @@ public class Minefield extends Model {
     private Heading direction;
     Block [][] boardArray = new Block[WORLD_SIZE][WORLD_SIZE];
 
-    public Minefield() {
+    public MineField() {
         for (int i = 0; i <WORLD_SIZE; i++)
         {
             for (int j = 0; j <WORLD_SIZE; j++)
@@ -27,6 +23,8 @@ public class Minefield extends Model {
         path = new LinkedList<Block>();
         takenFlag = true;
         checkMineFlag = false;
+
+
     }
     public void setLocation(Block currentBlock) {
         location = currentBlock;
@@ -35,7 +33,7 @@ public class Minefield extends Model {
     public List<Block> getPath() {
         return path;
     }
-    
+
     public void setTakenFlag() {
         takenFlag = true;
         path.add(location);
@@ -58,7 +56,7 @@ public class Minefield extends Model {
         List<Block> tempList = new LinkedList<Block>();
         if ((location.getXCoor() ==0)&& (location.getYCoor() == 0)) {
             Block b1 = boardArray[location.getXCoor()][location.getYCoor() + 1];
-            Block b2 = boardArray[location.getXCoor() +1][location.getYCoor()];
+            Block b2 = boardArray[location.getXcoor() +1][location.getYCoor()];
             Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
             tempList.add(b1);
             tempList.add(b2);
@@ -68,7 +66,7 @@ public class Minefield extends Model {
         }
         else if (location.getXCoor() == 0) {
             Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
-            Block b2 = boardArray[location.getXCoor() +1][location.getYCoor() - 1];
+            Block b2 = boardArray[location.getXcoor() +1][location.getYCoor() - 1];
             Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor()];
             Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
             Block b5 = boardArray[location.getXCoor()][location.getYCoor() + 1];
@@ -80,11 +78,11 @@ public class Minefield extends Model {
             tempList.add(b5);
         }
         else if (location.getYCoor() == 0) {
-            Block b1 = boardArray[location.getXCoor() - 1][location.getYCoor()];
-            Block b2 = boardArray[location.getXCoor() - 1][location.getYCoor() + 1];
-            Block b3 = boardArray[location.getXCoor()][location.getYCoor() + 1];
-            Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
-            Block b5 = boardArray[location.getXCoor() + 1][location.getYCoor()];
+            Block b1 = boardArray[location.getXCoor() - 1][location.yCoor()];
+            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() + 1];
+            Block b3 = boardArray[location.getXCoor()][location.yCoor() + 1];
+            Block b4 = boardArray[location.getXCoor() + 1][location.yCoor() + 1];
+            Block b5 = boardArray[location.getXCoor() + 1][location.yCoor()];
 
             tempList.add(b1);
             tempList.add(b2);
@@ -92,21 +90,21 @@ public class Minefield extends Model {
             tempList.add(b4);
             tempList.add(b5);
         }
-        else if ((location.getXCoor() == WORLD_SIZE - 1) && (location.getYCoor() == 0)) {
-            Block b1 = boardArray[location.getXCoor() - 1][location.getYCoor()];
-            Block b2 = boardArray[location.getXCoor() - 1][location.getYCoor() + 1];
-            Block b3 = boardArray[location.getXCoor()][location.getYCoor() + 1];
+        else if ((location.getXcoor() == WORLD_SIZE - 1) && (location.getYcoor() == 0)) {
+            Block b1 = boardArray[location.getXCoor() - 1][location.yCoor()];
+            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() + 1];
+            Block b3 = boardArray[location.getXCoor()][location.yCoor() + 1];
 
             tempList.add(b1);
             tempList.add(b2);
             tempList.add(b3);
         }
-        else if (location.getXCoor() == WORLD_SIZE - 1) {
-            Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
-            Block b2 = boardArray[location.getXCoor() - 1][location.getYCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() - 1][location.getYCoor()];
-            Block b4 = boardArray[location.getXCoor() - 1][location.getYCoor() + 1];
-            Block b5 = boardArray[location.getXCoor()][location.getYCoor() + 1];
+        else if (location.getXcoor() == WORLD_SIZE - 1) {
+            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
+            Block b2 = boardArray[location.getXcoor() - 1][location.yCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() - 1][location.yCoor()];
+            Block b4 = boardArray[location.getXCoor() - 1][location.yCoor() + 1];
+            Block b5 = boardArray[location.getXCoor()][location.yCoor() + 1];
 
             tempList.add(b1);
             tempList.add(b2);
@@ -114,22 +112,22 @@ public class Minefield extends Model {
             tempList.add(b4);
             tempList.add(b5);
         }
-        else if ((location.getYCoor() == WORLD_SIZE - 1) && (location.getXCoor() == 0)) {
-            Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
-            Block b2 = boardArray[location.getXCoor() + 1][location.getYCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor()];
+        else if ((location.getYcoor() == WORLD_SIZE - 1) && (location.getXcoor() == 0)) {
+            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
+            Block b2 = boardArray[location.getXcoor() + 1][location.yCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() + 1][location.yCoor()];
 
             tempList.add(b1);
             tempList.add(b2);
             tempList.add(b3);
         }
 
-        else if (location.getYCoor() == WORLD_SIZE - 1) {
-            Block b1 = boardArray[location.getXCoor()][location.getYCoor() - 1];
-            Block b2 = boardArray[location.getXCoor() + 1][location.getYCoor() - 1];
-            Block b3 = boardArray[location.getXCoor() + 1][location.getYCoor()];
-            Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
-            Block b5 = boardArray[location.getXCoor()][location.getYCoor() + 1];
+        else if (location.getYcoor() == WORLD_SIZE - 1) {
+            Block b1 = boardArray[location.getXCoor()][location.yCoor() - 1];
+            Block b2 = boardArray[location.getXcoor() + 1][location.yCoor() - 1];
+            Block b3 = boardArray[location.getXCoor() + 1][location.yCoor()];
+            Block b4 = boardArray[location.getXCoor() + 1][location.yCoor() + 1];
+            Block b5 = boardArray[location.getXCoor()][location.yCoor() + 1];
 
             tempList.add(b1);
             tempList.add(b2);
@@ -140,7 +138,7 @@ public class Minefield extends Model {
 
         else {
             Block b1 = boardArray[location.getXCoor() - 1][location.getYCoor()];
-            Block b2 = boardArray[location.getXCoor() - 1][location.getYCoor() + 1];
+            Block b2 = boardArray[location.getXcoor() - 1][location.getYCoor() + 1];
             Block b3 = boardArray[location.getXCoor()][location.getYCoor() + 1];
             Block b4 = boardArray[location.getXCoor() + 1][location.getYCoor() + 1];
             Block b5 = boardArray[location.getXCoor() + 1][location.getYCoor()];
@@ -174,7 +172,7 @@ public class Minefield extends Model {
             tempList.add(b1);
             tempList.add(b2);
             tempList.add(b3);
-            
+
         }
         else if (location.getXCoor() == 0) {
             Block b1 = new Block(location.getXCoor(), location.getYCoor() - 1);
@@ -250,7 +248,7 @@ public class Minefield extends Model {
 
         else {
             Block b1 = new Block(location.getXCoor() - 1, location.getYCoor());
-            Block b2 = new Block(location.getXCoor() - 1, location.getYCoor() + 1);
+            Block b2 = new Block(location.getXcoor() - 1, location.getYCoor() + 1);
             Block b3 = new Block(location.getXCoor(), location.getYCoor() + 1);
             Block b4 = new Block(location.getXCoor() + 1, location.getYCoor() + 1);
             Block b5 = new Block(location.getXCoor() + 1, location.getYCoor());
@@ -284,7 +282,7 @@ public class Minefield extends Model {
 
     }
     public boolean checkGetHome() {
-        if ((location.getXCoor() == WORLD_SIZE - 1) && 
+        if ((location.getXCoor() == WORLD_SIZE - 1) &&
         (location.getYCoor() == WORLD_SIZE - 1)) {
             return true;
             //win game!!!!
@@ -293,55 +291,94 @@ public class Minefield extends Model {
 
     }
     public void move() {
-        Block tempBlock = null;
-        if (direction == Heading.NORTH) {
-            Block newMove = new Block(location.getXCoor(), location.getYCoor() - 1);
-            path.add(location);
-            location = newMove;
+        if ((checkGetMined() == true) || (checkGetHome() == true)) {
+          return;
+        }
+        else {
+          Block tempBlock = null;
+          if (direction == Heading.NORTH) {
+              if (location.getYCoor() != 0) {
+                Block newMove = new Block(location.getXCoor(), location.getYCoor() - 1);
+                path.add(location);
+                location = newMove;
+              }
+          }
+
+          if (direction == Heading.SOUTH) {
+              if (location.getYCoor() !=  WORLD_SIZE - 1) {
+                Block newMove = new Block(location.getXCoor(), location.getYCoor() + 1);
+                path.add(location);
+                location = newMove;
+              }
+
+          }
+
+          if (direction == Heading.EAST) {
+              if (location.getXCoor() !=  WORLD_SIZE - 1) {
+                Block newMove = new Block(location.getXCoor() + 1, location.getYCoor());
+                path.add(location);
+                location = newMove;
+              }
+
+          }
+
+          if (direction == Heading.WEST) {
+              if (location.getXCoor() !=  0) {
+                Block newMove = new Block(location.getXCoor() - 1, location.getYCoor());
+                path.add(location);
+                location = newMove;
+              }
+
+          }
+
+          if (direction == Heading.NORTH_WEST) {
+              if ((location.getXCoor == 0) || (location.getYCoor == 0)) {
+                return;
+              }
+              else {
+                Block newMove = new Block(location.getXCoor() - 1, location.getYCoor() - 1);
+                path.add(location);
+                location = newMove;
+              }
+
+          }
+
+          if (direction == Heading.NORTH_EAST) {
+            if ((location.getXCoor == WORLD_SIZE - 1) || (location.getYCoor == 0)) {
+              return;
+            }
+            else {
+              Block newMove = new Block(location.getXCoor() + 1, location.getYCoor() - 1);
+              path.add(location);
+              location = newMove;
+            }
+          }
+
+          if (direction == Heading.SOUTH_WEST) {
+            if ((location.getXCoor == 0) || (location.getYCoor == WORLD_SIZE - 1)) {
+              return;
+            }
+            else {
+              Block newMove = new Block(location.getXCoor() - 1, location.getYCoor() + 1);
+              path.add(location);
+              location = newMove;
+            }
+          }
+
+          if (direction == Heading.SOUTH_EAST) {
+            if ((location.getXCoor == WORLD_SIZE - 1) || (location.getYCoor == WORLD_SIZE - 1)) {
+              return;
+            }
+            else {
+              Block newMove = new Block(location.getXCoor() + 1, location.getYCoor() + 1);
+              path.add(location);
+              location = newMove;
+
+            }
+          }
         }
 
-        if (direction == Heading.SOUTH) {
-            Block newMove = new Block(location.getXCoor(), location.getYCoor() + 1);
-            path.add(location);
-            location = newMove;
-        }
-
-        if (direction == Heading.EAST) {
-            Block newMove = new Block(location.getXCoor() + 1, location.getYCoor());
-            path.add(location);
-            location = newMove;
-        }
-
-        if (direction == Heading.WEST) {
-            Block newMove = new Block(location.getXCoor() - 1, location.getYCoor());
-            path.add(location);
-            location = newMove;
-        }
-
-        if (direction == Heading.NORTH_WEST) {
-            Block newMove = new Block(location.getXCoor() - 1, location.getYCoor() - 1);
-            path.add(location);
-            location = newMove;
-        }
-
-        if (direction == Heading.NORTH_EAST) {
-            Block newMove = new Block(location.getXCoor() + 1, location.getYCoor() - 1);
-            path.add(location);
-            location = newMove;
-        }
-
-        if (direction == Heading.SOUTH_WEST) {
-            Block newMove = new Block(location.getXCoor() - 1, location.getYCoor() + 1);
-            path.add(location);
-            location = newMove;
-        }
-
-        if (direction == Heading.SOUTH_EAST) {
-            Block newMove = new Block(location.getXCoor() + 1, location.getYCoor() + 1);
-            path.add(location);
-            location = newMove;
-        }
-    } 
+    }
 
     public void turn(Heading direction) {
         this.direction = direction;

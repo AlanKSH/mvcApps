@@ -1,6 +1,8 @@
 package mineField;
 import java.io.Serializable;
 import java.util.*;
+// Custom class for Minefield tiles that stores information about each tile
+// Information includes a tile's coordinates, the number of mines in surrounding tiles, and if the tile has a mine/is an endpoint
 public class Block implements Serializable {
     public static int percentMined = 10;
     int xCoor;
